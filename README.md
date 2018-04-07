@@ -27,7 +27,7 @@ This documentation describes how to setup a QTUM blockchain node (cluster) for d
 
 Use the following configuration to create your first node, be sure to change your rpcuser and rpcpassword accordingly.
 
-    ```bash  
+    ```bash
 	daemon=0
 	regtest=1
 	par=2
