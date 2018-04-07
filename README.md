@@ -109,3 +109,55 @@ You should get a response that looks like this:
 	rpcuser=user1 
 	rpcpassword=password1
     ```
+
+7. Making qtumd start at boot
+
+	In order to have your QTUM RPC wallet start from boot you can create a systemd service. This can be done in the following way:
+
+    ```bash
+	sudo vi /lib/systemd/system/qtumd.service
+	```
+
+	Add the following config to have a simple startup service.
+
+    ```bash
+	[Unit]
+	Description=start qtumd server
+	After=network.target
+
+	[Service]
+	Type=simple
+	User=root
+	ExecStart=/home/qtum-0.14.15/bin/qtumd -conf=/home/qtum-0.14.15/bin/qtum.conf
+	Restart=on-failure
+
+	[Install]
+	WantedBy=multi-user.target
+	```
+
+	Test if your service is working by executing the systemct start command.
+
+    ```bash
+    sudo systemctl start qtumd
+	sudo systemctl status qtumd 
+	```
+
+	If everything is alright you can expect a response like:
+
+    ```bash
+	 qtumd.service - start qtumd server
+	   Loaded: loaded (/lib/systemd/system/qtumd.service; disabled; vendor preset: enabled)
+	   Active: active (running) since Sat 2018-04-07 12:47:42 UTC; 1s ago
+	 Main PID: 8084 (qtumd)
+	    Tasks: 14
+	   Memory: 61.3M
+	      CPU: 157ms
+	   CGroup: /system.slice/qtumd.service
+	           └─8084 /home/qtum-0.14.15/bin/qtumd -conf=/home/qtum-0.14.15/bin/qtum.conf
+	```
+
+	When you're happy with your service you can enable it to start at boot by executing the systemctl enable function.
+
+    ```bash
+	sudo systemtl enable qtumd
+	```
