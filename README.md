@@ -34,6 +34,7 @@ Use the following configuration to create your first node, be sure to change you
 	txindex=1
 	logevents=1
 	port=23888
+	rpcport=13888
 	onlynet=ipv4
 	listenonion=0
 	logips=1
