@@ -27,7 +27,7 @@ This documentation describes how to setup a QTUM blockchain node (cluster) for d
 
 Use the following configuration to create your first node, be sure to change your rpcuser and rpcpassword accordingly.
 
-    ```  
+    ```bash  
 	daemon=0
 	regtest=1
 	par=2
@@ -37,19 +37,19 @@ Use the following configuration to create your first node, be sure to change you
 	onlynet=ipv4
 	listenonion=0
 	logips=1
-	uacomment=qtumd_node1
+	uacomment=qtumd_master
 	debug=1
 	record-log-opcodes=1
 	rpcuser=user1 
 	rpcpassword=password1
-    ```    
+    ```
 
 4. Check if your configuration is correct and request info from your rpc wallet.
 
     ```bash
     ./qtumd -conf=/home/qtum-0.14.15/bin/qtum.conf &
     ./qtum-cli -conf=/home/qtum-0.14.15/bin/qtum.conf getinfo
-    ``` 
+    ```
 
 You should get a response that looks like this:
 
@@ -76,13 +76,36 @@ You should get a response that looks like this:
 		relayfee: 0.004,
 		errors: ""
 	}
-    ``` 
+    ```
 
 5. Igniting your QTUM testnet
 
-As you can see in the previous response there are 0 block mined so far. In order to ignite the PoS of your development QTUM chain you can generate the first 5-600 blocks. This should enable the network and allow for 'normal functionality'.
+	As you can see in the previous response there are 0 block mined so far. In order to ignite the PoS of your development QTUM chain you can generate the first 5-600 blocks. This should enable the network and allow for 'normal functionality'.
 
     ```bash
 	./qtum-cli -conf=/home/qtum-0.14.15/bin/qtum.conf generate 600
-    ``` 
+    ```
 
+    If you run the getinfo command again you'll now see that the blocks variable is at 600 (or more).
+
+6. Setting up a second (or any number) node
+
+	To set up another node to join your Master-Node in the network you follow the same steps [1-4] with a small difference, the only thing you need to change is adding the ip address of your Master-Node to the qtum.conf file:
+
+    ```bash
+	daemon=0
+	regtest=1
+	par=2
+	txindex=1
+	logevents=1
+	port=23888
+	addnode=1.1.1.1:23888
+	onlynet=ipv4
+	listenonion=0
+	logips=1
+	uacomment=qtumd_node
+	debug=1
+	record-log-opcodes=1
+	rpcuser=user1 
+	rpcpassword=password1
+    ```
